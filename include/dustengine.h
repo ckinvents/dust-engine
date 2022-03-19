@@ -55,6 +55,11 @@ typedef struct _Dust {
     DustPos delta;
 } Dust;
 
+typedef struct _DustPhys {
+    Dust* gridRef;
+    DustVec vel;
+} DustPhys;
+
 typedef struct _DustNeighbor {
     DustID U;
     DustID D;
