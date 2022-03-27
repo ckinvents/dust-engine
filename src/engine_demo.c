@@ -12,9 +12,6 @@
 #define SCALE 8
 const unsigned int WIDTH = WIDDERSHINS/SCALE;
 const unsigned int HEIGHT = TURNWISE/SCALE;
-#define MAP_SCALE 1
-#define MAP_WIDTH 10
-#define MAP_HEIGHT 13
 
 // Test renderer
 SDL_Renderer* renderer = NULL;
@@ -78,19 +75,19 @@ int main(int argc, char* argv[])
             {
                 running = !running;
             }
-            else if (sdl_event.type == SDL_MOUSEWHEEL)
+            // Dust selection test code
+            else if (sdl_event.type == SDL_MOUSEWHEEL && sdl_event.wheel.y > 0 ||
+                sdl_event.type == SDL_KEYDOWN && sdl_event.key.keysym.scancode == SDL_SCANCODE_RIGHT)
             {
-                if (sdl_event.wheel.y > 0)
-                {
-                    dustType++;
-                }
-                else
-                {
-                    dustType--;
-                }
-                dustType %= NUM_TYPES;
-                test_col_default = world->types[dustType].shadeFunction(world->dust, D_OFFSET_NO) | 0xFF;
+                dustType++;
             }
+            else if (sdl_event.type == SDL_MOUSEWHEEL && sdl_event.wheel.y < 0 ||
+                sdl_event.type == SDL_KEYDOWN && sdl_event.key.keysym.scancode == SDL_SCANCODE_LEFT)
+            {
+                dustType--;
+            }
+            dustType %= NUM_TYPES;
+            test_col_default = world->types[dustType].shadeFunction(world->dust, D_OFFSET_NO) | 0xFF;
         }
         if (running == 1)
         {
@@ -111,9 +108,10 @@ int main(int argc, char* argv[])
             DustWorld_erase(world, test);
         }
 
-        PixBuffer_fillBuffer(screen, 0x24081CFF, 1.0);
+        PixBuffer_fillBuffer(screen, 0x48081CFF, 1.0);//0x24081CFF, 1.0);
         DustRender_renderWorld(screen, world, 0, 0);
         PixBuffer_drawPix(screen, test.x, test.y, test_col);
+        PixBuffer_orderDither256(screen, 4);
         SDL_UpdateTexture(drawTex, NULL, screen->pixels, WIDTH * sizeof(int32_t));
         SDL_RenderCopy(renderer, drawTex, NULL, NULL);
         SDL_RenderPresent(renderer);

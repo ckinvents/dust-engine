@@ -4,7 +4,7 @@
 #define FALSE 0
 #define TRUE !FALSE
 
-#define Stack 
+#define Stack BasicStack
 
 #ifndef BS_TYPE
 #define BS_TYPE void*
