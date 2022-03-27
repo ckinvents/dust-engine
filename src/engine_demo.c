@@ -108,10 +108,10 @@ int main(int argc, char* argv[])
             DustWorld_erase(world, test);
         }
 
-        PixBuffer_fillBuffer(screen, 0x48081CFF, 1.0);//0x24081CFF, 1.0);
+        PixBuffer_fillBuffer(screen, 0x331133FF, 1.0);//0x24081CFF, 1.0);
         DustRender_renderWorld(screen, world, 0, 0);
         PixBuffer_drawPix(screen, test.x, test.y, test_col);
-        PixBuffer_orderDither256(screen, 4);
+        PixBuffer_orderDither256(screen, 0);
         SDL_UpdateTexture(drawTex, NULL, screen->pixels, WIDTH * sizeof(int32_t));
         SDL_RenderCopy(renderer, drawTex, NULL, NULL);
         SDL_RenderPresent(renderer);
